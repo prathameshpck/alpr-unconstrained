@@ -62,7 +62,7 @@ class ShapeDisplay(Shape):
 	def draw(self,drawLineFunc,drawCircleFunc,drawTextFunc,color=(255,255,255),txtcolor=(255,255,255)):
 		ss = self.pts.shape[1]
 		if ss:
-			text = self.text if len(self.text) else 'NO_LABEL'
+			text = self.text if len(self.text) else ''
 			drawTextFunc(text,self.pts.min(1),color=txtcolor)
 		if ss > 1:
 			for i in range(ss):
@@ -227,7 +227,7 @@ def displayAllShapes(disp,shapes,selected,typing_mode):
 if __name__ == '__main__':
 
 	if len(sys.argv) < 4:
-		print __doc__
+		print(__doc__)
 		sys.exit()
 
 	maxW = int(sys.argv[1])

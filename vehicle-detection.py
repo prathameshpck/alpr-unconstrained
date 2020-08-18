@@ -2,6 +2,7 @@ import sys
 import cv2
 import numpy as np
 import traceback
+from glob import glob
 
 import darknet.python.darknet as dn
 
@@ -16,10 +17,10 @@ if __name__ == '__main__':
 
 	try:
 	
-		input_dir  = sys.argv[1]
-		output_dir = sys.argv[2]
+		input_dir  = 'samples/test/'
+		output_dir = 'temp/'
 
-		vehicle_threshold = .5
+		vehicle_threshold = .3
 
 		vehicle_weights = b'data/vehicle-detector/yolo-voc.weights'
 		vehicle_netcfg  = b'data/vehicle-detector/yolo-voc.cfg'
@@ -28,8 +29,10 @@ if __name__ == '__main__':
 		vehicle_net  = dn.load_net(vehicle_netcfg, vehicle_weights, 0)
 		vehicle_meta = dn.load_meta(vehicle_dataset)
 
-		imgs_paths = image_files_from_folder(input_dir)
-		imgs_paths.sort()
+		imgs_paths = glob('%s/*.jpg' %input_dir)
+		#imgs_paths.sort()
+
+		print(imgs_paths)
 
 		if not isdir(output_dir):
 			makedirs(output_dir)
@@ -44,7 +47,9 @@ if __name__ == '__main__':
 
 			R,_ = detect(vehicle_net, vehicle_meta, bytes(img_path , encoding = 'utf-8') ,thresh=vehicle_threshold)
 
-			R = [r for r in R if r[0] in ['car','bus']]
+			
+			R = [r for r in R if r[0] in [b'car',b'bus']]
+
 
 			print('\t\t%d cars found' % len(R))
 
@@ -61,6 +66,8 @@ if __name__ == '__main__':
 					br = np.array([cx + w/2., cy + h/2.])
 					label = Label(0,tl,br)
 					Icar = crop_region(Iorig,label)
+
+					
 
 					Lcars.append(label)
 

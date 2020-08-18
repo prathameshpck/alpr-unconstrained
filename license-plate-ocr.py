@@ -16,8 +16,8 @@ if __name__ == '__main__':
 
 	try:
 	
-		input_dir  = sys.argv[1]
-		output_dir = input_dir
+		input_dir  = 'temp/'
+		output_dir = 'temp/'
 
 		ocr_threshold = .4
 
@@ -31,14 +31,15 @@ if __name__ == '__main__':
 		imgs_paths = sorted(glob('%s/*lp.png' % output_dir))
 
 		print('Performing OCR...')
-		print('in')
+		print(imgs_paths)
+		
 		for i,img_path in enumerate(imgs_paths):
 
 			print('\tScanning %s' % img_path)
 
 			bname = basename(splitext(img_path)[0])
 
-			R,(width,height) = detect(ocr_net, ocr_meta, img_path ,thresh=ocr_threshold, nms=None)
+			R,(width,height) = detect(ocr_net, ocr_meta, img_path.encode('utf-8') ,thresh=ocr_threshold, nms=None)
 
 			if len(R):
 

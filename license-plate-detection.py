@@ -34,7 +34,6 @@ if __name__ == '__main__':
 		#print(imgs_paths)
 
 		for i,img_path in enumerate(imgs_paths):
-			print('hello')
 			print('\t Processing %s' % img_path)
 
 			#print(cv2.GetSize(img_path))
